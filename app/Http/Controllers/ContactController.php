@@ -1,36 +1,58 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 class ContactController extends Controller
 {
-public function index()
-{
-$contacts = Contact::all();
-return view('contacts.index', compact('contacts'));
-}
-public function create()
-{
-return view('contacts.create');
-}
-public function store(Request $request)
-{
-$request->validate([
-'name' => 'required|string',
-'phone' => 'required|string',
-'email' => 'required|string',
-]);
-Contact::create($request->only('name', 'phone', 'email'));
-return redirect()->route('contacts.index')->with('success', 'Contact added successfully!');
-}
+    public function index()
+    {
+        // Retrieve only non-deleted contacts with pagination
+        $contacts = Contact::paginate(20);
+        return view('contacts.index', compact('contacts'));
+    }
 
-#05-20 delete
-public function destroy(Contact $contact)
+    public function create()
+    {
+        return view('contacts.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|string',
+        ]);
+        Contact::create($request->only('name', 'phone', 'email'));
+        return redirect()->route('contacts.index')->with('success', 'Contact added successfully!');
+    }
+
+    public function destroy(Contact $contact)
     {
         $contact->delete();
         return redirect()->route('contacts.index')->with('success', 'Contact deleted successfully!');
     }
 
+    public function trashed()
+    {
+        // Retrieve only soft-deleted contacts with pagination
+        $contacts = Contact::onlyTrashed()->paginate(20);
+        return view('contacts.trashed', compact('contacts'));
+    }
+
+    public function restore($id)
+    {
+        Contact::withTrashed()->findOrFail($id)->restore();
+        return redirect()->route('contacts.trashed')->with('success', 'Kontaktas atkurtas!');
+    }
+
+    public function forceDelete($id)
+    {
+        Contact::withTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('contacts.trashed')->with('success', 'Kontaktas visam laikui pašalintas.');
+    }
 }
