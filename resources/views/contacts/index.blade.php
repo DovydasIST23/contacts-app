@@ -6,7 +6,8 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 style="color:magenta; font-size:200%">Kontaktu sąrašas</h2>
         <a style="color:blue;" href="{{ route('contacts.create') }}" class="btn btn-success">Pridėti kontakta</a><br>
-        <a style="color:red;" href="{{ route('contacts.trashed') }}" class="btn btn-success">Rodyti pašalintus</a>
+        <a style="color:red;" href="{{ route('contacts.trashed') }}" class="btn btn-success">Rodyti pašalintus</a><br>
+        <a style="color:green;" href="{{ route('submitG.form') }}" class="btn btn-success">Suisti Email</a>
     </div><br>
 
     @if(session('success'))

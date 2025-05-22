@@ -67,3 +67,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 05-20 Pridetas pridetas delete
 
 05-21 Pridetas softDelete(trashed), perdarytas index ir seeder nebaigtas
+
+05-22 Pridedas suintimas i MailTrap ir PDF generavimas(taip pat siunciamas email)

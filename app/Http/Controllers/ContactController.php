@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+//05-22
+use Illuminate\Support\Facades\Mail;
+use App\Mail\FormSubmissionMail;
+use App\Mail\PDFMail;
+
 
 class ContactController extends Controller
 {
@@ -55,4 +60,5 @@ class ContactController extends Controller
         Contact::withTrashed()->findOrFail($id)->forceDelete();
         return redirect()->route('contacts.trashed')->with('success', 'Kontaktas visam laikui pašalintas.');
     }
+   
 }
